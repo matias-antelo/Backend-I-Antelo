@@ -104,7 +104,7 @@ app.get('/api/carts/:cid', async (req, res) => {
   const carts = await readFile(cartsFile);
   const cart = carts.find(c => c.id === id);
   if (!cart) return res.status(404).json({ error: 'Carrito no encontrado' });
-  res.json(cart.products);
+  res.status(200).json(cart.products);
 });
 
 // POST /api/carts/:cid/product/:pid - Agregar producto al carrito
