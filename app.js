@@ -50,9 +50,6 @@ app.get('/api/products/:pid', async (req, res) => {
 // POST /api/products - Agregar un nuevo producto
 app.post('/api/products', async (req, res) => {
   const { title, description, code, price, status = true, stock, category, thumbnails = [] } = req.body;
-  if (!title || !description || !code || !price || !stock || !category) {
-    return res.status(400).json({ error: 'Faltan campos obligatorios' });
-  }
   const products = await readFile(productsFile);
   const id = products.length ? products[products.length - 1].id + 1 : 1;
   const newProduct = { id, title, description, code, price, status, stock, category, thumbnails };
