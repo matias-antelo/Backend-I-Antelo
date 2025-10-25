@@ -1,15 +1,19 @@
 import express from 'express';
 import fs from 'fs';
+import { v4 as uuidv4 } from 'uuid';  
+
 
 const app = express();
 const PORT = 8080;
+
+//para poder recibir y procesar las peticiones en JSON
 app.use(express.json());
 
 // Archivos para persistencia de la informacion
 const productsFile = './data/products.json';
 const cartsFile = './data/carts.json';
 
-// Funciones auxiliares
+// Funciones de lectura y escritura de archivos
 const readFile = async (path) => {
   try {
     if (!fs.existsSync(path)) return [];
@@ -17,7 +21,6 @@ const readFile = async (path) => {
     return JSON.parse(data);
   } catch (error) {
     console.error('Error al leer archivo:', error);
-    return [];
   }
 };
 
@@ -49,18 +52,10 @@ app.get('/api/products/:pid', async (req, res) => {
 // POST /api/products - Agregar un nuevo producto
 app.post('/api/products', async (req, res) => {
   const { title, description, code, price, status = true, stock, category, thumbnails = [] } = req.body;
-
-  if (!title || !description || !code || !price || !stock || !category) {
-    return res.status(400).json({ error: 'Faltan campos obligatorios' });
-  }
-
-  const products = await readFile(productsFile);
-  const id = products.length ? products[products.length - 1].id + 1 : 1;
+  const id = uuidv4();
   const newProduct = { id, title, description, code, price, status, stock, category, thumbnails };
-
   products.push(newProduct);
   await writeFile(productsFile, products);
-
   res.status(201).json(newProduct);
 });
 
