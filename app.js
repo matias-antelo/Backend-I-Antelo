@@ -3,12 +3,9 @@ import fs from 'fs';
 
 const app = express();
 const PORT = 8080;
-
-// Middleware para procesar JSON
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
-// Rutas de archivos
+// Archivos para persistencia de la informacion
 const productsFile = './data/products.json';
 const cartsFile = './data/carts.json';
 
@@ -32,9 +29,7 @@ const writeFile = async (path, data) => {
   }
 };
 
-//////////////////////////////////////////////
-//              ENDPOINTS PRODUCTS
-//////////////////////////////////////////////
+//ENDPOINTS PRODUCTS
 
 // GET /api/products - Listar todos los productos
 app.get('/api/products', async (req, res) => {
@@ -96,9 +91,8 @@ app.delete('/api/products/:pid', async (req, res) => {
   res.json({ message: 'Producto eliminado correctamente' });
 });
 
-//////////////////////////////////////////////
-//              ENDPOINTS CARTS
-//////////////////////////////////////////////
+
+//ENDPOINTS CARTS
 
 // POST /api/carts - Crear un nuevo carrito
 app.post('/api/carts', async (req, res) => {
@@ -143,9 +137,6 @@ app.post('/api/carts/:cid/product/:pid', async (req, res) => {
   res.json(cart);
 });
 
-//////////////////////////////////////////////
-//              SERVER ON
-//////////////////////////////////////////////
 
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en puerto ${PORT}`);
