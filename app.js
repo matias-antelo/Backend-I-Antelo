@@ -37,7 +37,7 @@ const writeFile = async (path, data) => {
 // GET /api/products - Listar todos los productos
 app.get('/api/products', async (req, res) => {
   const products = await readFile(productsFile);
-  res.json(products);
+  res.status(200).json(products);
 });
 
 // GET /api/products/:pid - Obtener producto por ID
@@ -46,16 +46,24 @@ app.get('/api/products/:pid', async (req, res) => {
   const products = await readFile(productsFile);
   const product = products.find(p => p.id === id);
   if (!product) return res.status(404).json({ error: 'Producto no encontrado' });
-  res.json(product);
+  res.status(200).json(product);
 });
 
 // POST /api/products - Agregar un nuevo producto
 app.post('/api/products', async (req, res) => {
   const { title, description, code, price, status = true, stock, category, thumbnails = [] } = req.body;
-  const id = uuidv4();
+
+  if (!title || !description || !code || !price || !stock || !category) {
+    return res.status(400).json({ error: 'Faltan campos obligatorios' });
+  }
+
+  const products = await readFile(productsFile);
+  const id = products.length ? products[products.length - 1].id + 1 : 1;
   const newProduct = { id, title, description, code, price, status, stock, category, thumbnails };
+
   products.push(newProduct);
   await writeFile(productsFile, products);
+
   res.status(201).json(newProduct);
 });
 
@@ -70,7 +78,7 @@ app.put('/api/products/:pid', async (req, res) => {
   products[index] = updatedProduct;
 
   await writeFile(productsFile, products);
-  res.json(updatedProduct);
+  res.status(200).json(updatedProduct);
 });
 
 // DELETE /api/products/:pid - Eliminar un producto
@@ -83,7 +91,7 @@ app.delete('/api/products/:pid', async (req, res) => {
     return res.status(404).json({ error: 'Producto no encontrado' });
 
   await writeFile(productsFile, filtered);
-  res.json({ message: 'Producto eliminado correctamente' });
+  res.status(200).json({ message: 'Producto eliminado correctamente' });
 });
 
 
