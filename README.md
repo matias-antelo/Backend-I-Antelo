@@ -1,4 +1,4 @@
-<img src="foto/CODER_CURSO.png" alt="Texto alternativo" width="300"/>
+<img src="foto1/CODER_CURSO.png" alt="Texto alternativo" width="300"/>
 
 ---
 
@@ -16,7 +16,7 @@ File System (fs) para manejo de archivos JSON
 
 <h2>⚙️ Estructura del proyecto</h2>
 
-<img src="foto/estructura.png" alt="Texto alternativo" width="300"/>            
+<img src="foto1/estructura.png" alt="Texto alternativo" width="300"/>            
 
 <h2>🧠 Endpoints </h2>
 <h3>📦 PRODUCTOS (/api/products)</h3>
