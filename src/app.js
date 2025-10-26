@@ -128,7 +128,7 @@ app.post('/api/carts/:cid/product/:pid', (req, res) => {
   }
 
   writeFile(cartsFile, carts);
-  res.json(cart);
+  res.status(200).json(cart);
 });
 
 
