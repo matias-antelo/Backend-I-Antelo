@@ -1,4 +1,4 @@
-<img src="foto1/CODER_CURSO.png" alt="Texto alternativo" width="300"/>
+<img src="foto/CODER_CURSO.png" alt="Texto alternativo" width="300"/>
 
 ---
 
@@ -16,7 +16,7 @@ File System (fs) para manejo de archivos JSON
 
 <h2>⚙️ Estructura del proyecto</h2>
 
-<img src="foto1/estructura.png" alt="Texto alternativo" width="300"/>            
+<img src="foto/estructura.png" alt="Texto alternativo" width="300"/>            
 
 <h2>🧠 Endpoints </h2>
 <h3>📦 PRODUCTOS (/api/products)</h3>
@@ -26,27 +26,25 @@ Obtiene todos los productos almacenados.
 
 <h4>📤 Respuesta:</h4>
 
-[
-  {
-    "id": 1,
+{
+"id": 1,
 
-    "title": "Microscopio óptico",
+"title": "Microscopio óptico",
 
-    "description": "Microscopio binocular con aumento de 1000x",
+"description": "Microscopio binocular con aumento de 1000x",
 
-    "code": "MIC001",
+"code": "MIC001",
 
-    "price": 250000,
+"price": 250000,
 
-    "status": true,
+"status": true,
 
-    "stock": 5,
+"stock": 5,
 
-    "category": "Equipos ópticos",
+"category": "Equipos ópticos",
 
-    "thumbnails": []
-  }
-]
+ "thumbnails": []
+}
 
 ---
 
@@ -57,28 +55,26 @@ Obtiene un producto por su id.
 <h4>📤 Respuesta exitosa (201):</h4>
 se obtiene el producto por id seleccionado como este ejemplo
 
-[
-  {
+{
 
-    "id": 1,
+ "id": 1,
 
-    "title": "Microscopio óptico",
+"title": "Microscopio óptico",
 
-    "description": "Microscopio binocular con aumento de 1000x",
+ "description": "Microscopio binocular con aumento de 1000x",
 
-    "code": "MIC001",
+ "code": "MIC001",
 
-    "price": 250000,
+"price": 250000,
 
-    "status": true,
+"status": true,
 
-    "stock": 5,
+"stock": 5,
 
-    "category": "Equipos ópticos",
+"category": "Equipos ópticos",
 
-    "thumbnails": []
-  }
-]
+"thumbnails": []
+}
 
 <h4>📛 Errores posibles (404):</h4>
 { "error": "Producto no encontrado" }
