@@ -33,55 +33,55 @@ const writeFile = async (path, data) => {
 //ENDPOINTS PRODUCTS
 
 // GET /api/products - Listar todos los productos
-app.get('/api/products', (req, res) => {
-  const products = readFile(productsFile);
-  res.status(200).json(products);
+app.get('/api/products', async (req, res) => {
+  const products = await readFile(productsFile);
+  res.status(200).json({ payload: products});
 });
 
 // GET /api/products/:pid - Obtener producto por ID
-app.get('/api/products/:pid', (req, res) => {
+app.get('/api/products/:pid', async (req, res) => {
   const id = parseInt(req.params.pid);
-  const products = readFile(productsFile);
+  const products = await readFile(productsFile);
   const product = products.find(p => p.id === id);
   if (!product) return res.status(404).json({ error: 'Producto no encontrado' });
-  res.status(200).json(product);
+  res.status(200).json({payload: product});
 });
 
 // POST /api/products - Agregar un nuevo producto
-app.post('/api/products', (req, res) => {
+app.post('/api/products',async (req, res) => {
   const { title, description, code, price, status = true, stock, category, thumbnails = [] } = req.body;
-  const products = readFile(productsFile);
+  const products = await readFile(productsFile);
   const id = products.length ? products[products.length - 1].id + 1 : 1;
   const newProduct = { id, title, description, code, price, status, stock, category, thumbnails };
   products.push(newProduct);
-  writeFile(productsFile, products);
-  res.status(201).json(newProduct);
+  await writeFile(productsFile, products);
+  res.status(201).json({payload: newProduct});
 });
 
 // PUT /api/products/:pid - Actualizar un producto
-app.put('/api/products/:pid', (req, res) => {
+app.put('/api/products/:pid', async (req, res) => {
   const id = parseInt(req.params.pid);
-  const products = readFile(productsFile);
+  const products = await readFile(productsFile);
   const index = products.findIndex(p => p.id === id);
   if (index === -1) return res.status(404).json({ error: 'Producto no encontrado' });
 
   const updatedProduct = { ...products[index], ...req.body, id };
   products[index] = updatedProduct;
 
-  writeFile(productsFile, products);
-  res.status(200).json(updatedProduct);
+  await writeFile(productsFile, products);
+  res.status(200).json({payload: updatedProduct});
 });
 
 // DELETE /api/products/:pid - Eliminar un producto
-app.delete('/api/products/:pid', (req, res) => {
+app.delete('/api/products/:pid', async (req, res) => {
   const id = parseInt(req.params.pid);
-  const products = readFile(productsFile);
+  const products = await readFile(productsFile);
   const filtered = products.filter(p => p.id !== id);
 
   if (filtered.length === products.length)
     return res.status(404).json({ error: 'Producto no encontrado' });
 
-  writeFile(productsFile, filtered);
+  await writeFile(productsFile, filtered);
   res.status(200).json({ message: 'Producto eliminado correctamente' });
 });
 
@@ -89,31 +89,31 @@ app.delete('/api/products/:pid', (req, res) => {
 //ENDPOINTS CARTS
 
 // POST /api/carts - Crear un nuevo carrito
-app.post('/api/carts', (req, res) => {
-  const carts = readFile(cartsFile);
+app.post('/api/carts', async (req, res) => {
+  const carts = await readFile(cartsFile);
   const id = carts.length ? carts[carts.length - 1].id + 1 : 1;
   const newCart = { id, products: [] };
   carts.push(newCart);
-  writeFile(cartsFile, carts);
-  res.status(201).json(newCart);
+  await writeFile(cartsFile, carts);
+  res.status(201).json({payload: newCart});
 });
 
 // GET /api/carts/:cid - Obtener los productos de un carrito
-app.get('/api/carts/:cid', (req, res) => {
+app.get('/api/carts/:cid', async (req, res) => {
   const id = parseInt(req.params.cid);
-  const carts = readFile(cartsFile);
+  const carts = await readFile(cartsFile);
   const cart = carts.find(c => c.id === id);
   if (!cart) return res.status(404).json({ error: 'Carrito no encontrado' });
-  res.status(200).json(cart.products);
+  res.status(200).json({payload: cart.products});
 });
 
 // POST /api/carts/:cid/product/:pid - Agregar producto al carrito
-app.post('/api/carts/:cid/product/:pid', (req, res) => {
+app.post('/api/carts/:cid/product/:pid', async (req, res) => {
   const cid = parseInt(req.params.cid);
   const pid = parseInt(req.params.pid);
 
-  const carts = readFile(cartsFile);
-  const products = readFile(productsFile);
+  const carts = await readFile(cartsFile);
+  const products = await readFile(productsFile);
   const cart = carts.find(c => c.id === cid);
   const product = products.find(p => p.id === pid);
 
@@ -128,7 +128,7 @@ app.post('/api/carts/:cid/product/:pid', (req, res) => {
   }
 
   writeFile(cartsFile, carts);
-  res.status(200).json(cart);
+  res.status(200).json({payload: cart});
 });
 
 
