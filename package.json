@@ -14,7 +14,7 @@
   "description": "",
   "dependencies": {
     "express": "^5.1.0",
-    "nodemon": "^3.1.10",
+    "nodemon": "^3.1.14",
     "uuid": "^13.0.0"
   }
 }
